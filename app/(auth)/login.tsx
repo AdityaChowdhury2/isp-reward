@@ -1,6 +1,8 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import TextInput from '@/components/Forms/TextInput/TextInput'
 
 
 
@@ -25,6 +27,7 @@ const LoginScreen = () => {
 
     return (
         <View className="flex-1 items-center justify-center px-3" style={{ backgroundColor: '#436697' }}>
+            <StatusBar style="dark" />
             {/* Logo Container */}
             <View className="mb-8">
                 <Image

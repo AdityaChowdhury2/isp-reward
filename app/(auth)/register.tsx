@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image, useColorScheme, StyleSheet, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, useColorScheme, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { ParallaxScrollView } from '@/components/core/parallax-scroll-view'
@@ -7,11 +7,18 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useForm, Controller } from 'react-hook-form'
 import { registrationSchema } from '@/schemas/registrationSchema'
 import { yupResolver } from "@hookform/resolvers/yup";
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropDown, { DropdownItem } from '@/components/Forms/SelectDropdown/SelectDropDown'
+import { StatusBar } from 'expo-status-bar'
+import TextInput from '@/components/Forms/TextInput/TextInput'
 
-const registrationOptions = [
+const registrationOptions: DropdownItem[] = [
     { label: "Individual", value: "individual" },
     { label: "Company", value: "company" },
+];
+
+const genderOptions: DropdownItem[] = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
 ];
 
 const RegisterScreen = () => {
@@ -46,6 +53,7 @@ const RegisterScreen = () => {
 
     return (
         <ParallaxScrollView className="flex-1 bg-[#436697]" headerImage={<Image source={require('../../assets/images/images.png')} className="w-60 h-40" resizeMode="contain" />} >
+            <StatusBar style="dark" />
             {/* Logo Container */}
             {/* <View className="items-center">
                 <Image
@@ -126,20 +134,7 @@ const RegisterScreen = () => {
                         control={control}
                         name="registrationType"
                         render={({ field: { onChange, value } }) => (
-                            <SelectDropdown
-                                data={registrationOptions}  // Pass an array of labels only
-                                onSelect={(selectedItem, index) => {
-                                    const selectedValue = registrationOptions[index].value;
-                                    onChange(selectedValue);  // Update form state with the value
-                                }}
-                                defaultValue="Select registration type"
-                                renderButton={(selectedItem, isOpened) => {
-                                    return <Text>{selectedItem?.label}</Text>
-                                }}
-                                renderItem={(item, index) => {
-                                    return <Text>{item?.label}</Text>
-                                }}
-                            />
+                            <SelectDropDown data={registrationOptions} onSelect={onChange} defaultText="Select registration type" />
                         )}
                     />
                     {errors.registrationType && (
@@ -154,9 +149,7 @@ const RegisterScreen = () => {
                         control={control}
                         name="gender"
                         render={({ field: { onChange, value } }) => (
-                            <View style={styles.input}>
-
-                            </View>
+                            <SelectDropDown data={genderOptions} onSelect={onChange} defaultText="Select gender" />
                         )}
                     />
                     {errors.gender && <Text style={styles.error}>{errors.gender.message}</Text>}
